@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="logincss.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <title>Вход в личный кабинет</title>
+</head>
+<body>
+    <section>
+        <div id="form-box">
+                <form action="">
+                    <h2>Логин</h2>
+                    <div class="inputbox">
+                        <input type="text" id="emailInput" required>
+                        <label for="">Почта</label>
+                    </div>
+                    <div class="inputbox">
+                        <input type="password" id="passwordInput" required>
+                        <label for="">Пароль</label>
+                    </div>
+                    <div id="forget">
+                        <label for=""><input type="checkbox">Запомнить меня</label>
+                        <label for=""><a href="#">Забыл пароль</a></label>
+                    </div>
+                    <div id="error-message-email">Пожалуйста, введите действительный email.</div>
+                    <div id="error-message-pass">Вы ввели неправильные данные</div>
+                    <button id="buttonlog">Войти</button>
+                    <div class="register">
+                        <p><a href="register.html">Нет аккаунта? Зарегистрируйтесь</a></p>
+                    </div>
+                </form>
+        </div>
+    </section>
+    <script>
+        document.querySelector('#buttonlog').addEventListener('click', function (e) {
+            var emailInput = document.getElementById('emailInput').value;
+            var passwordInput = document.getElementById('passwordInput').value;
+            var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            var errorMessageEmail = document.querySelector('#error-message-email');
+            var errorMessagePass = document.querySelector('#error-message-pass');
+
+            if (!emailRegex.test(emailInput)) {
+                e.preventDefault();
+                errorMessageEmail.style.visibility = 'visible';
+            } else {
+                e.preventDefault();
+                fetch('/login', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        mail: emailInput,
+        pass: passwordInput,
+    }),
+})
+.then(response => {
+    if (response.ok) {
+        window.location.href = 'main.html'; 
+    } else {
+        return response.text().then(errorMessage => {
+            console.error('Error:', errorMessage);
+            errorMessagePass.style.visibility = 'visible';
+        });
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    errorMessagePass.style.visibility = 'visible'; 
+});
+            }
+        });
+    </script>
+</body>
+</html>

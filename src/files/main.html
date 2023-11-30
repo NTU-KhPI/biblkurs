@@ -1,0 +1,113 @@
+<!DOCTYPE hmtl>
+    <html>
+        <head> 
+        <meta charset="utf-8">
+        <link href="maincss.css" rel="stylesheet">
+        <title>Бібліотека</title>
+        </head>
+    <body>
+        <header>
+            <div id="logo"><h1>MyLogo</h1></div>
+            <div class="search">
+                <input type="text" placeholder="">
+                <button>Пошук</button>
+            </div>
+            <div id="log">
+                <button id="logButton">Вхід в аккаунт</button>
+            </div>
+        </header>
+        <main id="body-content">
+                <nav id ="nav-flex">
+                    <nav id ="navitem1">
+                        <ul>
+                            <li><a href="#">Главная</a></li>
+                            <li><a href="#">Контакти</a></li>
+                            <li><a href="#">Про сайт</a></li>
+                        </ul>
+                    </nav>
+                    <h3>Теги фільтра</h3>
+                    <article id ="comm"><div id="filters">
+                        <label><p><input type="checkbox" class="tag-filter" value="Програмування"> Програмування</label></p>
+                        <label><p><input type="checkbox" class="tag-filter" value="Філософія"> Філософія</label></p>
+                        <label><p><input type="checkbox" class="tag-filter" value="Наукова-фантастика"> Наукова-фантастика</label></p>
+                        <label><p><input type="checkbox" class="tag-filter" value="Історія"> Історія</label></p>
+                        <label><p><input type="checkbox" class="tag-filter" value="Детектив"> Детектив</label></p>
+                    </div></article>
+                </nav>
+                <div id="article">
+                    <div id="booksList"></div>
+
+    <script>
+        const tagFilters = document.querySelectorAll('.tag-filter');
+        function filterBooks() {
+    const selectedTags = Array.from(tagFilters)
+        .filter(tag => tag.checked)
+        .map(tag => tag.value);
+    const bookContainers = document.querySelectorAll('.book-container');
+    bookContainers.forEach(container => {
+        const bookTags = JSON.parse(container.getAttribute('data-tags'));
+        const shouldShow = selectedTags.every(tag => bookTags.includes(tag));
+        if (shouldShow) {
+            container.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+        }
+    });
+}
+tagFilters.forEach(tagFilter => {
+    tagFilter.addEventListener('change', filterBooks);
+});
+        async function fetchBooks() {
+  try {
+    const response = await fetch('/books'); 
+    const books = await response.json();
+    const booksList = document.getElementById('booksList');
+    books.forEach(book => {
+      const bookContainer = document.createElement('div');
+      bookContainer.classList.add('book-container');
+      const bookText = document.createElement('p');
+      bookText.textContent = `${book.name} `;
+      const image = document.createElement('img');
+      image.src = book.imagePath;
+      bookContainer.addEventListener('click', function() {
+        const bookId = book._id; 
+        window.location.href = `book.html?id=${bookId}`;
+      }); 
+      const tag = book.tag || []; 
+    bookContainer.setAttribute('data-tags', JSON.stringify(tag));
+      bookContainer.appendChild(bookText);
+      bookContainer.appendChild(image);
+      bookText.classList.add('book-text');
+      image.classList.add('book-image');
+      booksList.appendChild(bookContainer);
+    });
+  } catch (error) {
+    console.error('Ошибка при получении данных о книгах:', error);
+  }
+}
+fetchBooks();
+    </script>
+                </div>
+            <aside class="sidebar2">    
+                <div id = "top1">
+                    <h2>Найкращі книги </h2>
+                    <p>на думку читачів</p>
+                    <div class = "top1top"> </div>
+                </div>
+                <div id = "top2">
+                    <h2>Найкращі аудиокниги</h2>
+                    <p>на думку читачів</p>
+                    <div class = "top1top"> </div>
+                </div>
+            </aside>
+        </main>
+        <script>
+            var button = document.getElementById("logButton");
+             var tURL = "login.html";
+    
+            button.addEventListener("click", function(){
+            window.location.href = window.location.origin + '/' + tURL;
+            });
+        </script>
+    </body>
+</html>

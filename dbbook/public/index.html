@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Список книг</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Список книг</h2>
+    <form name="bookForm">
+        <input type="hidden" name="id" value="0" />
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <input class="form-control" name="name" />
+        </div>
+        <div class="form-group">
+            <label for="author">Автор:</label>
+            <input class="form-control" name="author" />
+        </div>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <input class="form-control" name="description" />
+        </div>
+        <div class="form-group">
+            <label for="tag">Теги:</label>
+            <input class="form-control" name="tag">
+        </div>
+        <div class="form-group">
+            <label for="image">Изображение:</label>
+            <input type="file" class="form-control-file" name="image" accept="image/*">
+        </div>  
+        <div class="form-group">
+            <label for="audio">Аудиофайл:</label>
+            <input type="file" class="form-control-file" name="audio" accept="audio/*">
+        </div>
+        <div class="panel-body">
+            <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+            <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+        </div>
+    </form>
+    <table class="table table-condensed table-striped table-bordered">
+        <thead><tr><th>Id</th><th>Название</th><th>Автор</th><th>Описание</th><th>Теги</th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+    
+    <script>
+        async function getBooks() {
+            const response = await fetch("/api/books", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const books = await response.json();
+                let rows = document.querySelector("tbody"); 
+                books.forEach(book => {
+                    rows.append(row(book));
+                });
+            }
+        }
+        async function getBook(id) {
+            const response = await fetch("/api/books/" + id, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const book = await response.json();
+                const form = document.forms["bookForm"];
+                form.elements["id"].value = book._id;
+                form.elements["name"].value = book.name;
+                form.elements["author"].value = book.author;
+                form.elements["description"].value = book.description;
+                form.elements["tag"].value = book.tag;
+            }
+        }
+        async function createBook(name, author, description, tag, image, audio) {
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('author', author);
+            formData.append('description', description);
+            formData.append('tag', tag);
+            formData.append('image', image.files[0]); // Загрузка изображения
+            formData.append('audio', audio.files[0]); // Загрузка аудиофайла
+
+            try {
+                const response = await fetch("/api/books", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok === true) {
+                    const book = await response.json();
+                    reset();
+                    document.querySelector("tbody").append(row(book));
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }   
+        async function editBook(bookName, bookAuthor, bookDescription, bookTag) {
+            const response = await fetch("api/books", {
+                method: "PUT",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: bookId,
+                    name: bookName,
+                    author: bookAuthor,
+                    description: bookDescription,
+                    tag : bookTag
+                })
+            });
+            if (response.ok === true) {
+                const book = await response.json();
+                reset();
+                document.querySelector(`tr[data-rowid='${book._id}']`).replaceWith(row(book));
+            }
+        }
+        async function deleteBook(id) {
+            const response = await fetch("/api/books/" + id, {
+                method: "DELETE",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const book = await response.json();
+                document.querySelector(`tr[data-rowid='${book._id}']`).remove();
+            }
+        }
+        function reset() {
+            const form = document.forms["bookForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+        function row(book) {
+    console.log(book.audio)
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-rowid", book._id);
+    
+    const idTd = document.createElement("td");
+    idTd.append(book._id);
+    tr.append(idTd);
+    const nameTd = document.createElement("td");
+    nameTd.append(book.name);
+    tr.append(nameTd);
+    
+    const authorTd = document.createElement("td");
+    authorTd.append(book.author);
+    tr.append(authorTd);
+    
+    const descriptionTD = document.createElement("td");
+    descriptionTD.append(book.description); 
+    tr.append(descriptionTD);
+
+    const tagTD = document.createElement("td");
+    tagTD.append(book.tag);
+    tr.append(tagTD);
+
+    const imageTd = document.createElement("td"); 
+    const image = document.createElement("img");
+    image.src = `/${book.imagePath.replace(/\\/g, '/')}`;
+    image.style.maxWidth = "100px"; 
+    image.style.maxHeight = "100px";
+    imageTd.appendChild(image);
+    tr.appendChild(imageTd);
+
+    const audioTd = document.createElement("td");
+if (book.audioPath) {
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    const source = document.createElement("source");
+    source.src = `/${book.audioPath.replace(/\\/g, '/')}`;
+    audio.appendChild(source);
+    audioTd.appendChild(audio);
+} else {
+    audioTd.textContent = '-';
+}
+tr.appendChild(audioTd);
+
+
+    const linksTd = document.createElement("td");
+    const editLink = document.createElement("a");
+    editLink.setAttribute("data-id", book._id);
+    editLink.setAttribute("style", "cursor:pointer;padding:15px;");
+    editLink.append("Изменить");
+    editLink.addEventListener("click", e => {
+        e.preventDefault();
+        getBook(book._id);
+    });
+    linksTd.append(editLink);
+
+    const removeLink = document.createElement("a");
+    removeLink.setAttribute("data-id", book._id);
+    removeLink.setAttribute("style", "cursor:pointer;padding:15px;");
+    removeLink.append("Удалить");
+    removeLink.addEventListener("click", e => {
+        e.preventDefault();
+        deleteBook(book._id);
+    });
+
+    linksTd.append(removeLink);
+    tr.appendChild(linksTd);
+
+    return tr;
+}
+        document.getElementById("reset").addEventListener("click", e => {
+            e.preventDefault();
+            reset();
+        });
+
+        document.forms["bookForm"].addEventListener("submit", async e => {
+            e.preventDefault();
+            const form = document.forms["bookForm"];
+            const id = form.elements["id"].value;
+            const name = form.elements["name"].value;
+            const author = form.elements["author"].value;
+            const description = form.elements["description"].value;
+            const tag = form.elements["tag"].value;
+            const image = form.elements["image"];
+            const audio = form.elements["audio"]; 
+            createBook(name, author, description, tag, image, audio);
+        });
+        getBooks();
+    </script>
+</body>
+</html>

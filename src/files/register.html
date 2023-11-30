@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="logincss.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <title>Регистрация</title>
+</head>
+<body>
+    <section>
+        <main id="form-boxreg">
+                <form action="">
+                    <h2>Регистрация</h2>
+                    <div class="inputbox">
+                        <input type="text" id ="login" required>
+                        <label for="login">Логин</label>
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" id="emailInput" required>
+                        <label for="email">Почта</label>
+                    </div>
+                    <div class="inputbox">
+                        <input type="password" id="password1" required>
+                        <label for="password">Пароль</label>
+                    </div>
+                    <div class="inputbox">
+                        <input type="password" id="password2" required>
+                        <label for="confirm-password">Подтвердите пароль</label>
+                    </div>
+                    <div id="forget">
+                        <label for="agree"><input type="checkbox" required>Согласен с пользовательским соглашением</label>
+                    </div>
+                    <div id="error-message-email">Пожалуйста, введите действительный email.</div>
+                    <div id="error-message-pass">Ваши пароли не совпадают.</div>
+                    <div id="error-message-passregex">Неправильный пароль.</div>
+                    <div id="error-message-login">Вы ввели неправильный логин.</div>
+                    <button>Войти</button>
+                </form>
+        </main>
+    </section>
+    <script>
+        document.querySelector('button').addEventListener('click', function (e) {
+    var errorMessageEmail = document.querySelector('#error-message-email');
+    var errorMessageLogin = document.querySelector('#error-message-login');
+    var errorMessagePassRegex = document.querySelector('#error-message-passregex');
+    var errorMessagePass = document.querySelector('#error-message-pass');
+    var emailInput = document.getElementById('emailInput').value;
+    var pass1 = document.getElementById('password1').value;
+    var pass2 = document.getElementById('password2').value;
+    var login = document.getElementById('login').value;
+    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    var passRegex = /^[A-Za-z0-9\d]{8,}$/;
+    var loginRegex = /^[A-Za-z\d]{6,}$/;
+    var checkEmail = 0;
+    var checkPass = 0;
+    var checkRegex = 0;
+    var checkLogin = 0;
+    if (!loginRegex.test(login)) {
+        e.preventDefault();
+        errorMessageLogin.style.visibility = 'visible';
+        checkLogin = 1;
+    } else {
+        errorMessageLogin.style.visibility = 'hidden';
+        errorMessageLogin.style.marginTop = '-17px';
+    }
+
+    if (!emailRegex.test(emailInput)) {
+        e.preventDefault();
+        errorMessageEmail.style.visibility = 'visible';
+        checkEmail = 1;
+    } else {
+        errorMessageEmail.style.visibility = 'hidden';
+        errorMessageEmail.style.marginTop = '-17px';
+    }
+
+    if (!passRegex.test(pass1)) {
+        e.preventDefault();
+        errorMessagePassRegex.style.visibility = 'visible';
+        checkRegex = 1;
+    } else {
+        errorMessagePassRegex.style.visibility = 'hidden';
+        errorMessagePassRegex.style.marginTop = '-17px';
+    }
+
+    if (pass1 !== pass2) {
+        e.preventDefault();
+        errorMessagePass.style.visibility = 'visible';
+        checkPass = 1;
+    } else {
+        errorMessagePass.style.visibility = 'hidden';
+        errorMessagePass.style.marginTop = '-17px';
+    }
+
+    if (checkEmail === 1 && checkRegex === 1 && checkPass === 1 && checkLogin === 1) {
+        errorMessageLogin.style.marginTop = '0px';
+        errorMessagePassRegex.style.marginTop = '0px';
+        errorMessagePass.style.marginTop = '0px';
+    } else if (checkEmail === 1 && checkRegex === 1) {
+        errorMessageLogin.style.marginTop = '0px';
+        errorMessagePassRegex.style.marginTop = '0px';
+    } else if (checkEmail === 1 && checkPass === 1) {
+        errorMessageLogin.style.marginTop = '0px';
+        errorMessagePass.style.marginTop = '0px';
+    } else if (checkPass === 1 && checkLogin === 1) {
+        errorMessagePassRegex.style.marginTop = '0px';
+        errorMessageLogin.style.marginTop = '0px';
+    }
+    else if (checkPass === 1 && checkRegex === 1){
+        errorMessagePass.style.marginTop = '0px';
+        errorMessagePassRegex.style.marginTop='0px';
+    }
+    else if (checkEmail === 1 && checkLogin ===1){
+        errorMessageEmail.style.marginTop = '0px';
+        errorMessageLogin.style.marginTop = '0px';
+    }
+    else if (checkRegex === 1 && checkLogin ===1){
+        errorMessagePassRegex.style.marginTop ='0px';
+        errorMessageLogin.style.marginTop='0px';
+    }
+    else if (checkEmail ===1 && checkRegex===1 && checkPass ===1){
+        errorMessageEmail.style.marginTop='0px';
+        errorMessagePassRegex.style.marginTop='0px';
+        errorMessagePass.style.marginTop='0px';
+    }
+    else if (checkRegex === 1 && checkPass === 1 && checkLogin === 1){
+        errorMessageLogin.style.marginTop = '0px';
+        errorMessagePassRegex.style.marginTop = '0px';
+        errorMessagePass.style.marginTop = '0px';
+    }
+    else if (checkEmail ===1 && checkPass ===1 && checkLogin ===1){
+        errorMessageEmail.style.marginTop='0px';
+        errorMessagePass.style.marginTop = '0px';
+        errorMessageLogin.style.marginTop = '0px';
+    }
+    else if (checkEmail ===1 && checkRegex ===1 && checkLogin===1 ){
+        errorMessageEmail.style.marginTop='0px';
+        errorMessagePassRegex.style.marginTop='0px';
+        errorMessageLogin.style.marginTop='0px';
+    }
+});
+    </script>
+</body>
+</html>

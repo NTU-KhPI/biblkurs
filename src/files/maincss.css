@@ -1,0 +1,147 @@
+*{box-sizing: border-box;
+}
+*{padding: 0;margin: 0;border: 0;}
+*:before,:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+nav,footer,header,aside{display: block;}
+html,body{height:100%;width:100%;font-size:100%;line-height:1;font-size:14px;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+input,button,textarea{font-family:inherit;}
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner{padding:0;border:0;}
+a,a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
+body{
+    font-family: Verdana, Arial;
+    background:#f7f7f7;
+}
+#top1 h2{font-size:24;text-align:center;justify-content:center; display:flex;margin-top:15px}
+#top2 h2{font-size:24;text-align:center;justify-content:center; display:flex;margin-top:15px}
+#top1 p{font-size:24;text-align:center;justify-content:center; display:flex}
+#top2 p{font-size:24;text-align:center;justify-content:center; display:flex}
+ header {
+display:flex;
+height:5.25em;
+}
+#logo {flex:1; display:flex;justify-content: center;align-items:center;}
+#logo h1{font-size: 48; font-style:italic}
+#log {flex:1;align-items:center;justify-content: center;display:flex;}
+#log button{
+flex:1;
+padding:14px;
+border-radius: 15px;
+font-size:24;
+margin-right:15px;
+margin-left:10px;
+background-color:#D9D9D9;
+}
+.search {
+    flex:2;text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:15px; 
+}
+.search input[type="text"] {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    flex:3;
+    margin-right: 5px;
+    
+}
+.search button{
+    flex:1;
+    padding :14px;
+    border-radius:15px;
+    background-color: #4280F8;
+    font-size: 24;
+}
+#body-content{
+    display:flex;
+    height:90%; 
+}
+#nav-flex h3{text-align:center;font-size:27;padding-top:15px;}
+#nav-flex
+{
+display:flex;
+flex-direction:column;
+flex:1;
+height:100%;
+border-top: solid 1px gray;
+border-right:solid 1px gray;
+border-bottom:solid 1px gray;
+}
+#navitem1 { text-align:center;  font-size:27;  border-bottom:solid 1px gray; padding-bottom:15px;padding-top:15px  }
+#navitem1 a {
+    display: block;
+    color: black;
+    text-decoration: none;
+}
+#comm {padding: 15;flex:1;text-align: left;border-radius: 22px; background-color: #D9D9D9; margin: 15px; font-size:20px;}
+#article {border-top:solid 1px gray;flex:2;text-align:left;border-bottom:solid 1px gray;}
+.sidebar2 {flex:1;display:flex; flex-direction: column;}
+#top1{flex:1;border-top:solid 1px gray;border-left: solid 1px gray; display:flex; flex-direction:column}
+#top2{flex:1;border-left: solid 1px gray;border-top:solid 1px gray;border-bottom:solid 1px gray; display:flex; flex-direction:column}
+.top1top{margin:15px;flex:1;text-align: center;border-radius: 22px; background-color: #D9D9D9; }
+#booksList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin:10px;
+}
+  .book-container {
+    border-radius: 12px;
+    margin: 1px;
+    width: calc(26% - 20px);
+    height: calc(30vh - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    font-size:18px;
+}
+.book-text {
+    flex-grow: 1;
+    padding: 10px;
+  }
+  .book-image {
+    max-width: 55%;
+    height: 70%;
+    display: block; 
+    margin: 10px; 
+    padding: 5px;
+  }
+#bookDetails h2{
+    font-size:18px;
+    text-align: center;
+}
+#bookDetails p{
+    font-size:18px;
+    text-align: left;
+}
+#bookInfo{margin:10px;
+    display: flex;
+    }
+    @media (max-width: 767px) {
+        .book-container {
+          flex-direction: column;
+          width: calc(100% - 20px);
+        }
+        .book-text {
+          padding: 10px;
+          text-align: left;
+          font-size: 16px; 
+        }
+        .book-image {
+          max-width: 100%; 
+          margin-bottom: 10px;
+        }
+      }
