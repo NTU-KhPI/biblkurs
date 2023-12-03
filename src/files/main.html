@@ -52,7 +52,7 @@
         } else {
             container.style.display = 'none';
         }
-    });
+    }); //фильтрация элементов при помощи checkbox
 }
 tagFilters.forEach(tagFilter => {
     tagFilter.addEventListener('change', filterBooks);
@@ -74,12 +74,12 @@ tagFilters.forEach(tagFilter => {
         window.location.href = `book.html?id=${bookId}`;
       }); 
       const tag = book.tag || []; 
-    bookContainer.setAttribute('data-tags', JSON.stringify(tag));
+    bookContainer.setAttribute('data-tags', JSON.stringify(tag)); // каждый элемент получает свой tag для возможной фильтрации
       bookContainer.appendChild(bookText);
       bookContainer.appendChild(image);
       bookText.classList.add('book-text');
       image.classList.add('book-image');
-      booksList.appendChild(bookContainer);
+      booksList.appendChild(bookContainer); // создания элемента из БД
     });
   } catch (error) {
     console.error('Ошибка при получении данных о книгах:', error);

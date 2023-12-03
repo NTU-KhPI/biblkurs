@@ -56,7 +56,7 @@
                 let rows = document.querySelector("tbody"); 
                 books.forEach(book => {
                     rows.append(row(book));
-                });
+                }); // получения данных
             }
         }
         async function getBook(id) {
@@ -73,15 +73,15 @@
                 form.elements["description"].value = book.description;
                 form.elements["tag"].value = book.tag;
             }
-        }
+        } // вывод данных в таблицу
         async function createBook(name, author, description, tag, image, audio) {
             const formData = new FormData();
             formData.append('name', name);
             formData.append('author', author);
             formData.append('description', description);
             formData.append('tag', tag);
-            formData.append('image', image.files[0]); // Загрузка изображения
-            formData.append('audio', audio.files[0]); // Загрузка аудиофайла
+            formData.append('image', image.files[0]); 
+            formData.append('audio', audio.files[0]); 
 
             try {
                 const response = await fetch("/api/books", {
@@ -97,7 +97,7 @@
             } catch (error) {
                 console.error(error);
             }
-        }   
+        } // добавления элемента в БД
         async function editBook(bookName, bookAuthor, bookDescription, bookTag) {
             const response = await fetch("api/books", {
                 method: "PUT",

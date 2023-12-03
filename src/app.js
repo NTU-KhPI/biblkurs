@@ -18,7 +18,7 @@ app.get('/',async(req,res)=>{
  }catch(err) {
      return console.log(err);
  } 
-})();
+})(); // запуск сервера и подключения к БД
 app.get('/books', async (req, res) => {
   try { const limit = 12; 
   const books = await app.locals.collection.find({}).limit(limit).toArray();
@@ -33,8 +33,8 @@ app.get('/books', async (req, res) => {
     console.error('Ошибка при получении книг из базы данных:', error);
     res.status(500).send('Ошибка сервера');
   }
-  const { ObjectId } = require('mongodb');
-  app.get('/books/:id', async (req, res) => {
+  const { ObjectId } = require('mongodb');//Вывод всех элементов из БД
+  app.get('/books/:id', async (req, res) => { //Получения информации элемента на который пользователь нажал
     try {
       const bookId = req.params.id;
       if (!ObjectId.isValid(bookId)) {
