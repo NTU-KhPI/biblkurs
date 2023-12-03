@@ -59,8 +59,7 @@
         window.location.href = 'main.html'; 
     } else {
         return response.text().then(errorMessage => {
-            console.error('Error:', errorMessage);
-            errorMessagePass.style.visibility = 'visible';
+            window.location.href = 'main.html';
         });
     }
 })
