@@ -20,7 +20,7 @@ app.get('/',async(req,res)=>{
  } 
 })();
 app.get('/books', async (req, res) => {
-  try { const limit = 10; 
+  try { const limit = 12; 
   const books = await app.locals.collection.find({}).limit(limit).toArray();
     const booksWithFullImagePath = books.map(book => {
       return {
